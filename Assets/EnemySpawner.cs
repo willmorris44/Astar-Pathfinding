@@ -13,8 +13,8 @@ public class EnemySpawner : MonoBehaviour {
             var enemyPrefab = query.GetSingleton<EnemyDirectory>().monkeyPrefab;
 
             for (var i = 0; i < count; i++) {
-                var x = Random.Range(-50f, 50f);
-                var z = Random.Range(-50f, 50f);
+                var x = Random.Range(-100f, 100f);
+                var z = Random.Range(-100f, 100f);
                 var position = transform.position + new Vector3(x, 0, z);
 
                 Entity enemy = entityManager.Instantiate(enemyPrefab);
