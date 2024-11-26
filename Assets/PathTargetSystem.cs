@@ -42,7 +42,7 @@ public partial struct PathTargetJob : IJobEntity {
     public NativeArray<float3> targetPositions;
 
     void Execute(ref DestinationPoint destinationPoint, ref PathTargetComponent pathTargetComponent, in LocalTransform transform) {
-        if (pathTargetComponent.checkCount > 10) {
+        if (pathTargetComponent.checkCount > 100) {
             pathTargetComponent.checkCount = 0;
         } else {
             pathTargetComponent.checkCount += 1;
