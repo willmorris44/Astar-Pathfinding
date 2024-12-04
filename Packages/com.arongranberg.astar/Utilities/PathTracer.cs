@@ -194,7 +194,7 @@ namespace Pathfinding {
 		}
 
 		/// <summary>Incremented whenever the path is changed</summary>
-		public ushort version { get; private set; }
+		public ushort version { [IgnoredByDeepProfiler] get; [IgnoredByDeepProfiler] private set; }
 
 		/// <summary>True until <see cref="Dispose"/> is called</summary>
 		public readonly bool isCreated => funnelState.unwrappedPortals.IsCreated;
@@ -208,7 +208,9 @@ namespace Pathfinding {
 		/// Note: Not necessarily up to date unless <see cref="UpdateStart"/> has been called first.
 		/// </summary>
 		public GraphNode startNode {
+			[IgnoredByDeepProfiler]
 			readonly get => startNodeInternal != null && !startNodeInternal.Destroyed ? startNodeInternal : null;
+			[IgnoredByDeepProfiler]
 			private set => startNodeInternal = value;
 		}
 
@@ -219,7 +221,12 @@ namespace Pathfinding {
 		/// For performance reasons, the agent tries to avoid checking if nodes have been destroyed unless it needs to access them to calculate its movement.
 		/// Therefore, if a path is invalidated further ahead, the agent may not realize this until it has moved close enough.
 		/// </summary>
-		public readonly bool isStale => !endIsUpToDate || !startIsUpToDate || firstPartContainsDestroyedNodes;
+		public readonly bool isStale {
+			[IgnoredByDeepProfiler]
+			get {
+				return !endIsUpToDate || !startIsUpToDate || firstPartContainsDestroyedNodes;
+			}
+		}
 
 		/// <summary>
 		/// Number of parts in the path.
@@ -531,15 +538,17 @@ namespace Pathfinding {
 			var pbf = (float3)(Vector3)b;
 			var pcf = (float3)(Vector3)c;
 			var pf = (float3)p;
-			var distSq = math.lengthsq(Polygon.ClosestPointOnTriangle(paf, pbf, pcf, pf) - pf);
 			var distThreshold = height * 0.5f;
-			if (distSq >= distThreshold*distThreshold) {
+			var projectedf = ProjectOnSurface(paf, pbf, pcf, pf, movementPlane.up);
+
+			// If the agent is too far away from the surface,
+			// fall back to a more thorough check
+			if (math.lengthsq(projectedf - pf) > distThreshold*distThreshold) {
 				projected = Vector3.zero;
 				return false;
 			}
 
-			var up = movementPlane.ToWorld(float2.zero, 1);
-			projected = (Vector3)ProjectOnSurface(paf, pbf, pcf, pf, up);
+			projected = (Vector3)projectedf;
 			return true;
 		}
 
@@ -614,10 +623,10 @@ namespace Pathfinding {
 				// If so, we just project the position on the node's surface and return.
 				bool insideCurrentNode = false;
 				Vector3 newClampedPoint = Vector3.zero;
-				if (currentNode is TriangleMeshNode tnode) {
-					tnode.GetVertices(out var a, out var b, out var c);
+				if (currentNode is TriangleMeshNode triNode) {
+					triNode.GetVertices(out var a, out var b, out var c);
 					insideCurrentNode = ContainsAndProject(ref a, ref b, ref c, ref point, height, ref movementPlane, out newClampedPoint);
-				} else if (currentNode is GridNodeBase gnode) {
+				} else if (currentNode is GridNode gnode) {
 					// TODO: Can be optimized
 					// TODO: Also check for height
 					if (gnode.ContainsPoint(point)) {
@@ -715,11 +724,13 @@ namespace Pathfinding {
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		readonly bool ValidInPath (int absoluteNodeIndex) {
 			return HashNode(nodes.GetAbsolute(absoluteNodeIndex)) == nodeHashes.GetAbsolute(absoluteNodeIndex);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		static bool Valid(GraphNode node) => !node.Destroyed && node.Walkable;
 
 		/// <summary>
@@ -733,6 +744,9 @@ namespace Pathfinding {
 			int h = (int)node.NodeIndex;
 			h ^= node.Walkable ? 100663319 : 0;
 			if (node is GridNodeBase gnode) {
+				// TODO: We should hash the position of the node instead.
+				// The NodeInGridIndex will change for all nodes if a grid mover moves the graph,
+				// but we only want to invalidate the nodes which actually changed.
 				h ^= gnode.NodeInGridIndex * 25165843;
 			}
 			return h;

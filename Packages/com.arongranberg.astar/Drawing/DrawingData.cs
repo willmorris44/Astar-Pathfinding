@@ -208,7 +208,11 @@ namespace Pathfinding.Drawing {
 			JobHandle buildJob, splitterJob;
 			public List<MeshWithType> meshes;
 
-			public bool isValid => type != Type.Invalid;
+			public bool isValid {
+				get {
+					return type != Type.Invalid;
+				}
+			}
 
 			public struct CapturedState {
 				public Matrix4x4 matrix;

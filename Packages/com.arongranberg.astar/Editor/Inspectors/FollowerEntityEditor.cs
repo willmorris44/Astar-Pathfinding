@@ -221,7 +221,7 @@ namespace Pathfinding {
 					EditorGUILayout.HelpBox("Installing entities package...", MessageType.None);
 				}
 			} else {
-				EditorGUILayout.HelpBox("This component requires the Entities package to be installed. Please install it using the Package Manager.", MessageType.Error);
+				EditorGUILayout.HelpBox("This component requires the Entities package (1.1.0+) to be installed. Please install it using the Package Manager.", MessageType.Error);
 				if (GUILayout.Button("Install entities package")) {
 					addRequest = Client.Add("com.unity.entities");
 				}

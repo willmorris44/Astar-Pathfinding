@@ -1,3 +1,19 @@
+## 5.2.5 (2024-11-20)
+- Breaking changes
+		- If you have built your own ECS baker for the FollowerEntity. You must now also add the \reflink{PhysicsSceneRef} component to the entity.
+- When the \reflink{FollowerEntity} traverses off-mesh links and custom off mesh link handling code is used, it will no longer enable the agent's built-in movement by default.
+		Instead it will only be enabled if \reflink{AgentOffMeshLinkTraversalContext.enableBuiltInMovement} is enabled or \reflink{AgentOffMeshLinkTraversalContext.MoveTowards} is called.
+		This resolves issues many users have had where the agent's built-in movement was interefering with animation-driven movement during off-mesh links.
+- Fixed navmesh cutting could throw an exception due to a multithreading race condition, if navmesh cutting was used and multiple regular graph updates were happening at the same time (regression in 5.2.0).
+- Improved performance of \reflink{FollowerEntity} slightly.
+- Fixed the inspector for \reflink{RulePerLayerModifications} would not properly show the tag dropdown (possibly only an issue in Unity 6).
+- \reflink{RecastGraph.SnapBoundsToScene} will now make the bounding box taller to ensure the agent can stand on every valid surface.
+- The \reflink{FollowerEntity} will now use the physics scene from its GameObject when performing raycasts. Previously it always used the default physics scene.
+		This is useful when, for example, you use Unity's multiplayer testing mode, which creates multiple players in the same unity editor instance, each with their own physics scene.
+- \reflink{RecastGraph}s now default to rasterizing colliders, instead of meshes. This has slightly better performance, and is a better choice for most games.
+- Improved performance when deep profiling is enabled.
+- Increased the minimum supported version of the (optional) entities package to 1.1.0 (up from 1.0.0).
+
 ## 5.2.4 (2024-10-14)
 - Fixed trying to use navmesh cutting with an older version of the Unity collections package could throw an exception, instead of logging an error message saying that this is unsupported.
 - Fixed an exception that could happen when setting FollowerEntity.movementPlaneSource to NavmeshNormal and the agent lost the path it was following.

@@ -24,6 +24,7 @@ namespace Pathfinding.Graphs.Navmesh {
 
 #if MODULE_COLLECTIONS_2_1_0_OR_NEWER
 	using NativeHashMapVector2IntInt = Unity.Collections.NativeHashMap<Vector2Int, int>;
+	using Unity.Jobs.LowLevel.Unsafe;
 #else
 	using NativeHashMapVector2IntInt = Unity.Collections.NativeParallelHashMap<Vector2Int, int>;
 #endif
@@ -273,6 +274,12 @@ namespace Pathfinding.Graphs.Navmesh {
 #endif
 	}
 
+#if UNITY_2022_3_OR_NEWER && MODULE_COLLECTIONS_2_2_0_OR_NEWER
+	static class TileHandlerCache {
+		internal static Clipper64[] cachedClippers = new Clipper64[JobsUtility.ThreadIndexCount];
+	}
+#endif
+
 	/// <summary>
 	/// Utility class for updating tiles of navmesh/recast graphs.
 	///
@@ -304,8 +311,6 @@ namespace Pathfinding.Graphs.Navmesh {
 		struct CutFunctionKey {}
 		private static readonly SharedStatic<IntPtr> CutFunctionPtr = SharedStatic<IntPtr>.GetOrCreate<CutFunctionKey>();
 		private static CutFunction DelegateGCRoot;
-
-		static Clipper64 cachedClipper;
 #endif
 
 		/// <summary>See <see cref="SnapEdges"/></summary>
@@ -902,9 +907,12 @@ namespace Pathfinding.Graphs.Navmesh {
 
 		[AOT.MonoPInvokeCallback(typeof(CutFunction))]
 		static bool CutPolygon (ref UnsafeSpan<Point64Wrapper> subject, ref UnsafeSpan<Point64Wrapper> contourVertices, ref UnsafeSpan<NavmeshCut.ContourBurst> contours, ref UnsafeSpan<int> contourIndices, ref UnsafeSpan<int> contourIndicesDual, ref UnsafeList<Vector2Int> outputVertices, ref UnsafeList<int> outputVertexCountPerPolygon, int mode) {
-			cachedClipper = cachedClipper ?? new Clipper64();
-			cachedClipper.PreserveCollinear = true;
-			var clipper = cachedClipper;
+			// Cache the clipper object to avoid unnecessary allocations.
+			// This method may be executed from multiple threads at the same time,
+			// so we must ensure that we use different cached clipper objects for different threads.
+			var idx = JobsUtility.ThreadIndex;
+			var clipper = TileHandlerCache.cachedClippers[idx] = TileHandlerCache.cachedClippers[idx] ?? new Clipper64();
+			clipper.PreserveCollinear = true;
 			var closedSolutions = ListPool<List<Point64> >.Claim();
 			var openSolutions = ListPool<List<Point64> >.Claim();
 

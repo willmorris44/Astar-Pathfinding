@@ -25,21 +25,26 @@ namespace Pathfinding.ECS {
 
 			entityQueryPrepare = jobRepairPathScheduler.GetEntityQuery(Unity.Collections.Allocator.Temp).WithAll<SimulateMovement, SimulateMovementRepair>().Build(ref state);
 
-			entityQueryOffMeshLink = state.GetEntityQuery(
-				ComponentType.ReadWrite<LocalTransform>(),
-				ComponentType.ReadOnly<AgentCylinderShape>(),
-				ComponentType.ReadWrite<AgentMovementPlane>(),
-				ComponentType.ReadOnly<DestinationPoint>(),
-				ComponentType.ReadWrite<MovementState>(),
-				ComponentType.ReadOnly<MovementStatistics>(),
-				ComponentType.ReadWrite<ManagedState>(),
-				ComponentType.ReadWrite<MovementSettings>(),
-				ComponentType.ReadOnly<ResolvedMovement>(),
-				ComponentType.ReadWrite<MovementControl>(),
-				ComponentType.ReadWrite<AgentOffMeshLinkTraversal>(),
-				ComponentType.ReadWrite<ManagedAgentOffMeshLinkTraversal>(),
-				ComponentType.ReadOnly<SimulateMovement>()
-				);
+			entityQueryOffMeshLink = state.GetEntityQuery(new EntityQueryDesc {
+				All = new ComponentType[] {
+					ComponentType.ReadWrite<LocalTransform>(),
+					ComponentType.ReadOnly<AgentCylinderShape>(),
+					ComponentType.ReadWrite<AgentMovementPlane>(),
+					ComponentType.ReadOnly<DestinationPoint>(),
+					ComponentType.ReadWrite<MovementState>(),
+					ComponentType.ReadOnly<MovementStatistics>(),
+					ComponentType.ReadWrite<ManagedState>(),
+					ComponentType.ReadWrite<MovementSettings>(),
+					ComponentType.ReadOnly<ResolvedMovement>(),
+					ComponentType.ReadWrite<MovementControl>(),
+					ComponentType.ReadWrite<AgentOffMeshLinkTraversal>(),
+					ComponentType.ReadWrite<ManagedAgentOffMeshLinkTraversal>(),
+					ComponentType.ReadOnly<SimulateMovement>(),
+				},
+				Present = new ComponentType[] {
+					ComponentType.ReadWrite<AgentOffMeshLinkMovementDisabled>()
+				}
+			});
 
 			entityQueryOffMeshLinkCleanup = state.GetEntityQuery(
 				// ManagedAgentOffMeshLinkTraversal is a cleanup component.
@@ -180,6 +185,7 @@ namespace Pathfinding.ECS {
 				// Add the AgentOffMeshLinkTraversal and ManagedAgentOffMeshLinkTraversal components when the agent should start traversing an off-mesh link.
 				commandBuffer.AddComponent(entity, new AgentOffMeshLinkTraversal(linkInfo));
 				commandBuffer.AddComponent(entity, new ManagedAgentOffMeshLinkTraversal(ctx, ResolveOffMeshLinkHandler(state, ctx)));
+				commandBuffer.AddComponent(entity, new AgentOffMeshLinkMovementDisabled());
 			}
 			Profiler.EndSample();
 		}
@@ -199,13 +205,15 @@ namespace Pathfinding.ECS {
 			new JobManagedOffMeshLinkTransition {
 				commandBuffer = commandBuffer,
 				deltaTime = AIMovementSystemGroup.TimeScaledRateManager.CheapStepDeltaTime,
-			}.Run(entityQueryOffMeshLink);
+			}.Run();
 
 			new JobManagedOffMeshLinkTransitionCleanup().Run(entityQueryOffMeshLinkCleanup);
 #if MODULE_ENTITIES_1_0_8_OR_NEWER
 			commandBuffer.RemoveComponent<ManagedAgentOffMeshLinkTraversal>(entityQueryOffMeshLinkCleanup, EntityQueryCaptureMode.AtPlayback);
+			commandBuffer.RemoveComponent<AgentOffMeshLinkMovementDisabled>(entityQueryOffMeshLinkCleanup, EntityQueryCaptureMode.AtPlayback);
 #else
 			commandBuffer.RemoveComponent<ManagedAgentOffMeshLinkTraversal>(entityQueryOffMeshLinkCleanup);
+			commandBuffer.RemoveComponent<AgentOffMeshLinkMovementDisabled>(entityQueryOffMeshLinkCleanup);
 #endif
 			commandBuffer.Playback(systemState.EntityManager);
 			commandBuffer.Dispose();

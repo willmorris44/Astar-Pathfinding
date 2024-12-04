@@ -6,6 +6,8 @@ using Unity.Transforms;
 
 namespace Pathfinding.ECS {
 	[BurstCompile]
+	[WithAll(typeof(SimulateMovement), typeof(SimulateMovementFinalize))]
+	[WithNone(typeof(AgentOffMeshLinkMovementDisabled))]
 	public partial struct JobMoveAgent : IJobEntity {
 		public float dt;
 

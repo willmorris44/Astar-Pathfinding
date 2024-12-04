@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Mathematics;
 using System.Runtime.CompilerServices;
+using Unity.Profiling;
 
 namespace Pathfinding {
 	/// <summary>
@@ -53,21 +54,21 @@ namespace Pathfinding {
 			z = _z;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static bool operator == (Int3 lhs, Int3 rhs) {
 			return lhs.x == rhs.x &&
 				   lhs.y == rhs.y &&
 				   lhs.z == rhs.z;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static bool operator != (Int3 lhs, Int3 rhs) {
 			return lhs.x != rhs.x ||
 				   lhs.y != rhs.y ||
 				   lhs.z != rhs.z;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static explicit operator Int3 (Vector3 ob) {
 			return new Int3(
 				(int)System.Math.Round(ob.x*FloatPrecision),
@@ -76,22 +77,22 @@ namespace Pathfinding {
 				);
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static explicit operator Vector3 (Int3 ob) {
 			return new Vector3(ob.x*PrecisionFactor, ob.y*PrecisionFactor, ob.z*PrecisionFactor);
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static explicit operator float3 (Int3 ob) {
 			return (float3)(int3)ob*PrecisionFactor;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static explicit operator int3 (Int3 ob) {
 			return new int3(ob.x, ob.y, ob.z);
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static Int3 operator - (Int3 lhs, Int3 rhs) {
 			lhs.x -= rhs.x;
 			lhs.y -= rhs.y;
@@ -99,7 +100,7 @@ namespace Pathfinding {
 			return lhs;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static Int3 operator - (Int3 lhs) {
 			lhs.x = -lhs.x;
 			lhs.y = -lhs.y;
@@ -107,7 +108,7 @@ namespace Pathfinding {
 			return lhs;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static Int3 operator + (Int3 lhs, Int3 rhs) {
 			lhs.x += rhs.x;
 			lhs.y += rhs.y;
@@ -115,7 +116,7 @@ namespace Pathfinding {
 			return lhs;
 		}
 
-		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+		[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public static Int3 operator * (Int3 lhs, int rhs) {
 			lhs.x *= rhs;
 			lhs.y *= rhs;
@@ -148,11 +149,11 @@ namespace Pathfinding {
 		}
 
 		public int this[int i] {
-			[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+			[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			get {
 				return i == 0 ? x : (i == 1 ? y : z);
 			}
-			[MethodImplAttribute(MethodImplOptions.AggressiveInlining)]
+			[MethodImplAttribute(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			set {
 				if (i == 0) x = value;
 				else if (i == 1) y = value;

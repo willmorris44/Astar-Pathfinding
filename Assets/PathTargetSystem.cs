@@ -35,8 +35,7 @@ public partial struct PathTargetSystem : ISystem {
 }
 
 [BurstCompile]
-[UpdateInGroup(typeof(Pathfinding.ECS.AIMovementSystemGroup))]
-[UpdateBefore(typeof(Pathfinding.ECS.FollowerControlSystem))]
+[UpdateBefore(typeof(Pathfinding.ECS.AIMovementSystemGroup))]
 public partial struct PathTargetJob : IJobEntity {
     [ReadOnly]
     public NativeArray<float3> targetPositions;

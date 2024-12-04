@@ -36,7 +36,7 @@
         },
         {
             "name": "com.unity.entities",
-            "expression": "1.0.0-pre.47",
+            "expression": "1.1.0-pre.3",
             "define": "MODULE_ENTITIES"
         }
     ],

@@ -769,8 +769,12 @@ namespace Pathfinding.Drawing {
 		}
 
 		/// <summary>
-		/// Multiply all coordinates until the next PopMatrix with the given matrix.
-		/// This differs from <see cref="PushSetMatrix"/> in that this stacks with all previously pushed matrices while <see cref="PushSetMatrix"/> does not.
+		/// Multiply all coordinates until the next <see cref="PopMatrix"/> with the given matrix.
+		///
+		/// PushMatrix and PushSetMatrix are slightly different:
+		///
+		/// - PushMatrix stacks with all previously pushed matrices. The active matrix becomes the product of the given matrix and the previously active one.
+		/// - PushSetMatrix sets the current matrix directly. The active matrix becomes the last pushed matrix.
 		/// </summary>
 		public void PushMatrix (Matrix4x4 matrix) {
 			Reserve<float4x4>();
@@ -779,8 +783,12 @@ namespace Pathfinding.Drawing {
 		}
 
 		/// <summary>
-		/// Multiply all coordinates until the next PopMatrix with the given matrix.
-		/// This differs from <see cref="PushSetMatrix"/> in that this stacks with all previously pushed matrices while <see cref="PushSetMatrix"/> does not.
+		/// Multiply all coordinates until the next <see cref="PopMatrix"/> with the given matrix.
+		///
+		/// PushMatrix and PushSetMatrix are slightly different:
+		///
+		/// - PushMatrix stacks with all previously pushed matrices. The active matrix becomes the product of the given matrix and the previously active one.
+		/// - PushSetMatrix sets the current matrix directly. The active matrix becomes the last pushed matrix.
 		/// </summary>
 		public void PushMatrix (float4x4 matrix) {
 			Reserve<float4x4>();
@@ -789,8 +797,12 @@ namespace Pathfinding.Drawing {
 		}
 
 		/// <summary>
-		/// Multiply all coordinates until the next PopMatrix with the given matrix.
-		/// This differs from <see cref="PushMatrix"/> in that this sets the current matrix directly while <see cref="PushMatrix"/> stacks with all previously pushed matrices.
+		/// Multiply all coordinates until the next <see cref="PopMatrix"/> with the given matrix.
+		///
+		/// PushMatrix and PushSetMatrix are slightly different:
+		///
+		/// - PushMatrix stacks with all previously pushed matrices. The active matrix becomes the product of the given matrix and the previously active one.
+		/// - PushSetMatrix sets the current matrix directly. The active matrix becomes the last pushed matrix.
 		/// </summary>
 		public void PushSetMatrix (Matrix4x4 matrix) {
 			Reserve<float4x4>();
@@ -800,7 +812,11 @@ namespace Pathfinding.Drawing {
 
 		/// <summary>
 		/// Multiply all coordinates until the next PopMatrix with the given matrix.
-		/// This differs from <see cref="PushMatrix"/> in that this sets the current matrix directly while <see cref="PushMatrix"/> stacks with all previously pushed matrices.
+		///
+		/// PushMatrix and PushSetMatrix are slightly different:
+		///
+		/// - PushMatrix stacks with all previously pushed matrices. The active matrix becomes the product of the given matrix and the previously active one.
+		/// - PushSetMatrix sets the current matrix directly. The active matrix becomes the last pushed matrix.
 		/// </summary>
 		public void PushSetMatrix (float4x4 matrix) {
 			Reserve<float4x4>();
@@ -808,7 +824,12 @@ namespace Pathfinding.Drawing {
 			Add(matrix);
 		}
 
-		/// <summary>Pops a matrix from the stack</summary>
+		/// <summary>
+		/// Pops a matrix from the stack.
+		///
+		/// See: <see cref="PushMatrix"/>
+		/// See: <see cref="PushSetMatrix"/>
+		/// </summary>
 		public void PopMatrix () {
 			Reserve(4);
 			Add(Command.PopMatrix);

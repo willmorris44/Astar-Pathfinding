@@ -11,11 +11,29 @@ namespace Pathfinding.ECS.RVO {
 	using Pathfinding.RVO;
 	using Unity.Jobs;
 
+	/// <summary>
+	/// Simulates local avoidance in an ECS context.
+	///
+	/// All agent entities must have the following ECS components:
+	/// - LocalTransform
+	/// - <see cref="AgentCylinderShape"/>
+	/// - <see cref="AgentMovementPlane"/>
+	/// - <see cref="RVOAgent"/>
+	/// - <see cref="MovementControl"/>: where you store how you want the agent to move
+	/// - <see cref="ResolvedMovement"/>: where this system will output how the agent should move, when using RVO
+	///
+	/// The system will use the data from <see cref="MovementControl"/>, and output the following fields to <see cref="ResolvedMovement"/>:
+	///
+	/// <see cref="ResolvedMovement.targetPoint"/>: Where the agent should move to.
+	/// <see cref="ResolvedMovement.speed"/>: At what speed the agent should move, in world units.
+	/// <see cref="ResolvedMovement.turningRadiusMultiplier"/>: This will go up if its more crowded, to indicate that the agent should try to take wider turns to improve crowd flow.
+	///
+	/// The <see cref="AgentIndex"/> component will be added to the agent automatically by this system. You do not need to care about it.
+	/// </summary>
 	[BurstCompile]
 	[UpdateAfter(typeof(FollowerControlSystem))]
 	[UpdateInGroup(typeof(AIMovementSystemGroup))]
 	public partial struct RVOSystem : ISystem {
-		EntityQuery entityQuery;
 		/// <summary>
 		/// Keeps track of the last simulator that this RVOSystem saw.
 		/// This is a weak GCHandle to allow it to be stored in an ISystem.
@@ -27,16 +45,6 @@ namespace Pathfinding.ECS.RVO {
 		ComponentLookup<AgentOffMeshLinkTraversal> agentOffMeshLinkTraversalLookup;
 
 		public void OnCreate (ref SystemState state) {
-			entityQuery = state.GetEntityQuery(
-				ComponentType.ReadOnly<AgentCylinderShape>(),
-				ComponentType.ReadOnly<LocalTransform>(),
-				ComponentType.ReadOnly<RVOAgent>(),
-				ComponentType.ReadOnly<AgentIndex>(),
-				ComponentType.ReadOnly<AgentMovementPlane>(),
-				ComponentType.ReadOnly<MovementControl>(),
-				ComponentType.ReadWrite<ResolvedMovement>(),
-				ComponentType.ReadOnly<SimulateMovement>()
-				);
 			withAgentIndex = state.GetEntityQuery(
 				ComponentType.ReadWrite<AgentIndex>()
 				);

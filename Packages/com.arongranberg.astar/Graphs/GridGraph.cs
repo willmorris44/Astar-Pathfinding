@@ -310,6 +310,8 @@ namespace Pathfinding {
 		/// If false, diagonals will cost more.
 		/// This is useful for a hexagon graph where the diagonals are actually the same length as the
 		/// normal edges (since the graph has been skewed)
+		///
+		/// If the graph is set to hexagonal in the inspector, this will be automatically set to true.
 		/// </summary>
 		[JsonMember]
 		public bool uniformEdgeCosts;
@@ -350,6 +352,7 @@ namespace Pathfinding {
 		/// Instead you can convert it to a dimension on a hexagon using <see cref="ConvertNodeSizeToHexagonSize"/>.
 		///
 		/// See: <see cref="SetDimensions"/>
+		/// See: <see cref="SetGridShape"/>
 		/// </summary>
 		[JsonMember]
 		public float nodeSize = 1;
@@ -1028,6 +1031,21 @@ namespace Pathfinding {
 		/// If no tilemap is detected, the button be hidden.
 		///
 		/// [Open online documentation to see images]
+		///
+		/// Note: This will not change the width/height of the graph. It only aligns the graph to the closest orientation so that the grid nodes will be aligned to the cells in the tilemap.
+		/// You can adjust the width/height of the graph separately using e.g. <see cref="SetDimensions"/>.
+		///
+		/// The following parameters will be updated:
+		///
+		/// - <see cref="center"/>
+		/// - <see cref="nodeSize"/>
+		/// - <see cref="isometricAngle"/>
+		/// - <see cref="aspectRatio"/>
+		/// - <see cref="rotation"/>
+		/// - <see cref="uniformEdgeCosts"/>
+		/// - <see cref="neighbours"/>
+		/// - <see cref="inspectorGridMode"/>
+		/// - <see cref="transform"/>
 		///
 		/// See: tilemaps (view in online documentation for working links)
 		/// </summary>

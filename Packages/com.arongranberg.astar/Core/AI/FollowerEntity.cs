@@ -7,6 +7,7 @@ using Unity.Collections;
 using UnityEngine.Profiling;
 using Unity.Entities;
 using Unity.Transforms;
+using Unity.Profiling;
 
 namespace Pathfinding {
 	using Pathfinding.Drawing;
@@ -127,6 +128,7 @@ namespace Pathfinding {
 	/// - <see cref="SyncRotationWithTransform"/> - tag component (if <see cref="updateRotation"/> is enabled)
 	/// - <see cref="OrientationYAxisForward"/> - tag component (if <see cref="orientation"/> is <see cref="OrientationMode"/>.YAxisForward)
 	/// - <see cref="ECS.RVO.RVOAgent"/> (if local avoidance is enabled)
+	/// - <see cref="PhysicsSceneRef"/> - shared component
 	///
 	/// Then this script barely does anything by itself. It is a thin wrapper around the ECS components.
 	/// Instead, actual movement calculations are carried out by the following systems:
@@ -223,9 +225,11 @@ namespace Pathfinding {
 		[SerializeField]
 		MovementPlaneSource movementPlaneSourceBacking = MovementPlaneSource.Graph;
 
+		/// <summary>\copydocref{updatePosition}</summary>
 		[SerializeField]
 		bool syncPosition = true;
 
+		/// <summary>\copydocref{updateRotation}</summary>
 		[SerializeField]
 		bool syncRotation = true;
 
@@ -239,7 +243,7 @@ namespace Pathfinding {
 		///
 		/// Check the class documentation to see which components it usually has, and what systems typically affect it.
 		/// </summary>
-		public Entity entity { get; private set; }
+		public Entity entity { [IgnoredByDeepProfiler] get; private set; }
 
 		static EntityAccess<DestinationPoint> destinationPointAccessRW = new EntityAccess<DestinationPoint>(false);
 		static EntityAccess<DestinationPoint> destinationPointAccessRO = new EntityAccess<DestinationPoint>(true);
@@ -276,7 +280,7 @@ namespace Pathfinding {
 		void OnEnable () {
 			scratchReferenceCount++;
 			FindComponents();
-			entity = CreateEntity(tr.position, tr.rotation, tr.localScale.x, ref shape, ref movement, ref autoRepathBacking, managedState, orientationBacking, movementPlaneSourceBacking, syncPosition, syncRotation);
+			entity = CreateEntity(tr.position, tr.rotation, tr.localScale.x, ref shape, ref movement, ref autoRepathBacking, managedState, orientationBacking, movementPlaneSourceBacking, syncPosition, syncRotation, PhysicsSceneExtensions.GetPhysicsScene(gameObject.scene));
 
 			// Register with the BatchedEvents system
 			// This is used not for the events, but because it keeps track of a TransformAccessArray
@@ -297,7 +301,7 @@ namespace Pathfinding {
 		///
 		/// If you don't want to use the FollowerEntity MonoBehaviour, you can use this method to create an equivalent entity directly.
 		/// </summary>
-		public static Entity CreateEntity (float3 position, quaternion rotation, float scale, ref AgentCylinderShape shape, ref MovementSettings movement, ref ECS.AutoRepathPolicy autoRepath, ManagedState managedState, OrientationMode orientation, MovementPlaneSource movementPlaneSource, bool updatePosition, bool updateRotation) {
+		public static Entity CreateEntity (float3 position, quaternion rotation, float scale, ref AgentCylinderShape shape, ref MovementSettings movement, ref ECS.AutoRepathPolicy autoRepath, ManagedState managedState, OrientationMode orientation, MovementPlaneSource movementPlaneSource, bool updatePosition, bool updateRotation, PhysicsScene physicsScene) {
 			var world = World.DefaultGameObjectInjectionWorld;
 			if (!archetype.Valid || achetypeWorld != world) {
 				if (world == null) throw new Exception("World.DefaultGameObjectInjectionWorld is null. Has the world been destroyed?");
@@ -323,7 +327,8 @@ namespace Pathfinding {
 					typeof(SyncPositionWithTransform),
 					typeof(SyncRotationWithTransform),
 					typeof(ReadyToTraverseOffMeshLink),
-					typeof(AgentMovementPlaneSource)
+					typeof(AgentMovementPlaneSource),
+					typeof(PhysicsSceneRef)
 					);
 			}
 
@@ -358,6 +363,7 @@ namespace Pathfinding {
 			}
 			entityManager.SetComponentEnabled<ReadyToTraverseOffMeshLink>(entity, false);
 			entityManager.SetSharedComponent(entity, new AgentMovementPlaneSource { value = movementPlaneSource });
+			entityManager.SetSharedComponent(entity, new PhysicsSceneRef { physicsScene = physicsScene });
 			ToggleComponent<SyncPositionWithTransform>(entity, updatePosition, true);
 			ToggleComponent<SyncRotationWithTransform>(entity, updateRotation, true);
 
@@ -371,6 +377,7 @@ namespace Pathfinding {
 
 			entityManager.SetComponentData(entity, resolvedMovement);
 			entityManager.SetComponentData(entity, movementControl);
+
 			return entity;
 		}
 

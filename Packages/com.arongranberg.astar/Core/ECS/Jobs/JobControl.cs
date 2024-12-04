@@ -12,6 +12,8 @@ using Unity.Burst.Intrinsics;
 
 namespace Pathfinding.ECS {
 	[BurstCompile]
+	[WithNone(typeof(AgentOffMeshLinkTraversal))]
+	[WithAll(typeof(SimulateMovement), typeof(SimulateMovementControl))]
 	public partial struct JobControl : IJobEntity, IJobEntityChunkBeginEnd {
 		public float dt;
 		public CommandBuilder draw;

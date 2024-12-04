@@ -6,6 +6,7 @@ using UnityEngine.Assertions;
 using Unity.Mathematics;
 using Pathfinding.Util;
 using Unity.Burst;
+using Unity.Profiling;
 
 namespace Pathfinding {
 	/// <summary>Interface for something that holds a triangle based navmesh</summary>
@@ -112,6 +113,7 @@ namespace Pathfinding {
 		/// not have the same vertex numbers.
 		/// </summary>
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		public int GetVertexIndex (int i) {
 			return i == 0 ? v0 : (i == 1 ? v1 : v2);
 		}
@@ -148,6 +150,7 @@ namespace Pathfinding {
 		}
 
 		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		public override Int3 GetVertex (int i) {
 			return GetNavmeshHolder(GraphIndex).GetVertex(GetVertexIndex(i));
 		}

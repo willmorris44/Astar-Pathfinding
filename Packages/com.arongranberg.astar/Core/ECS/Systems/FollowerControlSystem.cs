@@ -20,7 +20,6 @@ namespace Pathfinding.ECS {
 	[UpdateInGroup(typeof(AIMovementSystemGroup))]
 	[BurstCompile]
 	public partial struct FollowerControlSystem : ISystem {
-		EntityQuery entityQueryControl;
 		EntityQuery entityQueryControlManaged;
 		EntityQuery entityQueryControlManaged2;
 		RedrawScope redrawScope;
@@ -30,23 +29,6 @@ namespace Pathfinding.ECS {
 
 		public void OnCreate (ref SystemState state) {
 			redrawScope = DrawingManager.GetRedrawScope();
-
-			entityQueryControl = state.GetEntityQuery(
-				ComponentType.ReadWrite<LocalTransform>(),
-				ComponentType.ReadOnly<AgentCylinderShape>(),
-				ComponentType.ReadOnly<AgentMovementPlane>(),
-				ComponentType.ReadOnly<DestinationPoint>(),
-				ComponentType.ReadWrite<MovementState>(),
-				ComponentType.ReadOnly<MovementStatistics>(),
-				ComponentType.ReadWrite<ManagedState>(),
-				ComponentType.ReadOnly<MovementSettings>(),
-				ComponentType.ReadOnly<ResolvedMovement>(),
-				ComponentType.ReadWrite<MovementControl>(),
-
-				ComponentType.Exclude<AgentOffMeshLinkTraversal>(),
-				ComponentType.ReadOnly<SimulateMovement>(),
-				ComponentType.ReadOnly<SimulateMovementControl>()
-				);
 
 			entityQueryControlManaged = state.GetEntityQuery(
 				ComponentType.ReadWrite<ManagedMovementOverrideBeforeControl>(),
@@ -117,7 +99,7 @@ namespace Pathfinding.ECS {
 				navmeshEdgeData = navmeshEdgeData,
 				draw = draw,
 				dt = dt,
-			}.ScheduleParallel(entityQueryControl, JobHandle.CombineDependencies(systemState.Dependency, readLock.dependency));
+			}.ScheduleParallel(JobHandle.CombineDependencies(systemState.Dependency, readLock.dependency));
 			readLock.UnlockAfter(systemState.Dependency);
 			draw.DisposeAfter(systemState.Dependency);
 

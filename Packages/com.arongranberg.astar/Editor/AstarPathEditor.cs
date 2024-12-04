@@ -842,7 +842,7 @@ namespace Pathfinding {
 			if (script.heuristic == Heuristic.Manhattan || script.heuristic == Heuristic.Euclidean || script.heuristic == Heuristic.DiagonalManhattan) {
 				EditorGUI.indentLevel++;
 				script.heuristicScale = EditorGUILayout.FloatField("Heuristic Scale", script.heuristicScale);
-				script.heuristicScale = Mathf.Clamp01(script.heuristicScale);
+				// script.heuristicScale = Mathf.Clamp01(script.heuristicScale);
 				EditorGUI.indentLevel--;
 			}
 

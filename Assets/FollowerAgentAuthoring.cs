@@ -102,11 +102,13 @@ public class FollowerAgentBaker : Baker<FollowerAgentAuthoring> {
         AddComponent<SyncPositionWithTransform>(agentEntity);
         AddComponent<SyncRotationWithTransform>(agentEntity);
 
+        AddSharedComponent(agentEntity, new PhysicsSceneRef { physicsScene = Physics.defaultPhysicsScene} );
+
         // agent shape
         AddComponent(agentEntity, new AgentCylinderShape { height = authoring.AgentHeight, radius = authoring.AgentRadius });
 
         // default destination point
-        AddComponent(agentEntity, new DestinationPoint { destination = new float3(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity) });
+        AddComponent(agentEntity, new DestinationPoint { destination = new float3(-38.14f, -113.09f, 98.31f) });
 
         // movement plane
         NativeMovementPlane plane;

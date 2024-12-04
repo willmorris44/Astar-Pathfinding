@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Pathfinding.Pooling;
+using Unity.Profiling;
+using System.Runtime.CompilerServices;
 
 namespace Pathfinding.Collections {
 	/// <summary>
@@ -14,19 +16,37 @@ namespace Pathfinding.Collections {
 		int length;
 
 		/// <summary>Number of items in the buffer</summary>
-		public readonly int Length => length;
+		public readonly int Length {
+			[IgnoredByDeepProfiler]
+			get {
+				return length;
+			}
+		}
 		/// <summary>Absolute index of the first item in the buffer, may be negative or greater than <see cref="Length"/></summary>
 		public readonly int AbsoluteStartIndex => head;
 		/// <summary>Absolute index of the last item in the buffer, may be negative or greater than <see cref="Length"/></summary>
 		public readonly int AbsoluteEndIndex => head + length - 1;
 
 		/// <summary>First item in the buffer, throws if the buffer is empty</summary>
-		public readonly ref T First => ref data[head & (data.Length-1)];
+		public readonly ref T First {
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[IgnoredByDeepProfiler]
+			get {
+				return ref data[head & (data.Length-1)];
+			}
+		}
 
 		/// <summary>Last item in the buffer, throws if the buffer is empty</summary>
-		public readonly ref T Last => ref data[(head+length-1) & (data.Length-1)];
+		public readonly ref T Last {
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[IgnoredByDeepProfiler]
+			get {
+				return ref data[(head+length-1) & (data.Length-1)];
+			}
+		}
 
 		readonly int IReadOnlyCollection<T>.Count {
+			[IgnoredByDeepProfiler]
 			get {
 				return length;
 			}
@@ -62,7 +82,8 @@ namespace Pathfinding.Collections {
 		}
 
 		/// <summary>Pushes a new item to the start of the buffer</summary>
-		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		public void PushStart (T item) {
 			if (data == null || length >= data.Length) Grow();
 			length += 1;
@@ -71,7 +92,8 @@ namespace Pathfinding.Collections {
 		}
 
 		/// <summary>Pushes a new item to the end of the buffer</summary>
-		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		public void PushEnd (T item) {
 			if (data == null || length >= data.Length) Grow();
 			length += 1;
@@ -79,13 +101,15 @@ namespace Pathfinding.Collections {
 		}
 
 		/// <summary>Pushes a new item to the start or the end of the buffer</summary>
-		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		[IgnoredByDeepProfiler]
 		public void Push (bool toStart, T item) {
 			if (toStart) PushStart(item);
 			else PushEnd(item);
 		}
 
 		/// <summary>Removes and returns the first element</summary>
+		[IgnoredByDeepProfiler]
 		public T PopStart () {
 			if (length == 0) throw new System.InvalidOperationException();
 			var r = this[0];
@@ -95,6 +119,7 @@ namespace Pathfinding.Collections {
 		}
 
 		/// <summary>Removes and returns the last element</summary>
+		[IgnoredByDeepProfiler]
 		public T PopEnd () {
 			if (length == 0) throw new System.InvalidOperationException();
 			var r = this[length-1];
@@ -103,6 +128,7 @@ namespace Pathfinding.Collections {
 		}
 
 		/// <summary>Pops either from the start or from the end of the buffer</summary>
+		[IgnoredByDeepProfiler]
 		public T Pop (bool fromStart) {
 			if (fromStart) return PopStart();
 			else return PopEnd();
@@ -162,14 +188,14 @@ namespace Pathfinding.Collections {
 
 		/// <summary>Indexes the buffer, with index 0 being the first element</summary>
 		public T this[int index] {
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[MethodImpl(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			readonly get {
 #if UNITY_EDITOR
 				if ((uint)index >= length) throw new System.ArgumentOutOfRangeException();
 #endif
 				return data[(index+head) & (data.Length-1)];
 			}
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[MethodImpl(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			set {
 #if UNITY_EDITOR
 				if ((uint)index >= length) throw new System.ArgumentOutOfRangeException();
@@ -183,7 +209,7 @@ namespace Pathfinding.Collections {
 		/// When pushing to and popping from the buffer, the absolute indices do not change.
 		/// So e.g. after doing PushStart(x) on an empty buffer, GetAbsolute(-1) will get the newly pushed element.
 		/// </summary>
-		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public readonly T GetAbsolute (int index) {
 #if UNITY_EDITOR
 			if ((uint)(index - head) >= length) throw new System.ArgumentOutOfRangeException();
@@ -191,7 +217,7 @@ namespace Pathfinding.Collections {
 			return data[index & (data.Length-1)];
 		}
 
-		[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+		[MethodImpl(MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 		public readonly void SetAbsolute (int index, T value) {
 #if UNITY_EDITOR
 			if ((uint)(index - head) >= length) throw new System.ArgumentOutOfRangeException();
@@ -206,6 +232,10 @@ namespace Pathfinding.Collections {
 				System.Array.Copy(data, head & (data.Length-1), newData, head & (newData.Length - 1), inOrderItems);
 				var wraparoundItems = length - inOrderItems;
 				if (wraparoundItems > 0) System.Array.Copy(data, 0, newData, (head + inOrderItems) & (newData.Length - 1), wraparoundItems);
+
+				// If T is a class, we need to clear the old array to avoid leaking references that prevent the GC from working
+				System.Array.Fill(data, default(T));
+
 				ArrayPool<T>.Release(ref data);
 			}
 			data = newData;
@@ -213,6 +243,7 @@ namespace Pathfinding.Collections {
 
 		/// <summary>Release the backing array of this buffer back into an array pool</summary>
 		public void Pool () {
+			System.Array.Fill(data, default(T));
 			ArrayPool<T>.Release(ref data);
 			length = 0;
 			head = 0;

@@ -104,7 +104,7 @@ MonoBehaviour:
   IsStopped: 0
   RepathPolicy:
     mode: 2
-    period: 2
+    period: 4
   AgentOrientation: 0
   MovePlane: 1
   ManagedOpts:

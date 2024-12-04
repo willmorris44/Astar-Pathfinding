@@ -10,9 +10,6 @@ namespace Pathfinding.ECS {
 	[UpdateInGroup(typeof(AIMovementSystemGroup))]
 	[RequireMatchingQueriesForUpdate]
 	public partial struct SyncDestinationTransformSystem : ISystem {
-		public void OnCreate (ref SystemState state) {}
-		public void OnDestroy (ref SystemState state) {}
-
 		public void OnUpdate (ref SystemState systemState) {
 			foreach (var(point, destinationSetter) in SystemAPI.Query<RefRW<DestinationPoint>, AIDestinationSetter>()) {
 				if (destinationSetter.target != null) {

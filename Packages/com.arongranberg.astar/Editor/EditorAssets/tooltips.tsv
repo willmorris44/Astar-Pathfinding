@@ -639,10 +639,8 @@ Pathfinding.ECS.AIMoveSystem.MarkerMovementOverride	aimovesystem.html#MarkerMove
 Pathfinding.ECS.AIMoveSystem.MovementStateTypeHandleRO	aimovesystem.html#MovementStateTypeHandleRO	
 Pathfinding.ECS.AIMoveSystem.ResolvedMovementHandleRO	aimovesystem.html#ResolvedMovementHandleRO	
 Pathfinding.ECS.AIMoveSystem.entityQueryGizmos	aimovesystem.html#entityQueryGizmos	
-Pathfinding.ECS.AIMoveSystem.entityQueryMove	aimovesystem.html#entityQueryMove	
 Pathfinding.ECS.AIMoveSystem.entityQueryMovementOverride	aimovesystem.html#entityQueryMovementOverride	
 Pathfinding.ECS.AIMoveSystem.entityQueryPrepareMovement	aimovesystem.html#entityQueryPrepareMovement	
-Pathfinding.ECS.AIMoveSystem.entityQueryRotation	aimovesystem.html#entityQueryRotation	
 Pathfinding.ECS.AIMoveSystem.entityQueryWithGravity	aimovesystem.html#entityQueryWithGravity	
 Pathfinding.ECS.AIMoveSystem.jobRepairPathScheduler	aimovesystem.html#jobRepairPathScheduler	
 Pathfinding.ECS.AIMovementSystemGroup.TimeScaledRateManager.CheapSimulationOnly	timescaledratemanager.html#CheapSimulationOnly	True if it was determined that zero substeps should be simulated. \n\nIn this case all systems will get an opportunity to run a single update, but they should avoid systems that don't have to run every single frame.
@@ -674,6 +672,7 @@ Pathfinding.ECS.AgentOffMeshLinkTraversalContext.backupRotationSmoothing	agentof
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.concreteLink	agentoffmeshlinktraversalcontext.html#concreteLink	The off-mesh link that is being traversed. \n\n[more in online documentation]
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.deltaTime	agentoffmeshlinktraversalcontext.html#deltaTime	Delta time since the last link simulation. \n\nDuring high time scales, the simulation may run multiple substeps per frame.\n\nThis is <b>not</b> the same as Time.deltaTime. Inside the link coroutine, you should always use this field instead of Time.deltaTime.
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.disabledRVO	agentoffmeshlinktraversalcontext.html#disabledRVO	
+Pathfinding.ECS.AgentOffMeshLinkTraversalContext.enableBuiltInMovement	agentoffmeshlinktraversalcontext.html#enableBuiltInMovement	True if the agent's built-in movement logic should be enabled. \n\nWhen traversing an off-mesh link, you typically want the agent's movement to be completely controlled by an animation, or some other code. However, sometimes you may want to use the built-in movement logic to move the agent.\n\nUsing the MoveTowards method will automatically enable the agent's movement logic during that frame.\n\n[more in online documentation]
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.entity	agentoffmeshlinktraversalcontext.html#entity	The entity that is traversing the off-mesh link.
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.gameObject	agentoffmeshlinktraversalcontext.html#gameObject	GameObject associated with the agent. \n\nIn most cases, an agent is associated with an agent, but this is not always the case. For example, if you have created an entity without using the FollowerEntity component, this property may return null.\n\n[more in online documentation]
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.gameObjectCache	agentoffmeshlinktraversalcontext.html#gameObjectCache	
@@ -681,8 +680,9 @@ Pathfinding.ECS.AgentOffMeshLinkTraversalContext.link	agentoffmeshlinktraversalc
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.linkInfo	agentoffmeshlinktraversalcontext.html#linkInfo	Information about the off-mesh link that the agent is traversing. \n\n[more in online documentation]
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.linkInfoPtr	agentoffmeshlinktraversalcontext.html#linkInfoPtr	
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.managedState	agentoffmeshlinktraversalcontext.html#managedState	Some internal state of the agent.
-Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementControl	agentoffmeshlinktraversalcontext.html#movementControl	How the agent should move. \n\nThe agent will move according to this data, every frame.
+Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementControl	agentoffmeshlinktraversalcontext.html#movementControl	How the agent should move. \n\nThe agent will move according to this data, every frame, if enableBuiltInMovement is enabled.\n\n[more in online documentation]
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementControlPtr	agentoffmeshlinktraversalcontext.html#movementControlPtr	
+Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementDisabled	agentoffmeshlinktraversalcontext.html#movementDisabled	
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementPlane	agentoffmeshlinktraversalcontext.html#movementPlane	The plane in which the agent is moving. \n\nIn a 3D game, this will typically be the XZ plane, but in a 2D game it will typically be the XY plane. Games on spherical planets could have planes that are aligned with the surface of the planet.
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementPlanePtr	agentoffmeshlinktraversalcontext.html#movementPlanePtr	
 Pathfinding.ECS.AgentOffMeshLinkTraversalContext.movementSettings	agentoffmeshlinktraversalcontext.html#movementSettings	The movement settings for the agent.
@@ -708,10 +708,8 @@ Pathfinding.ECS.EntityAccessHelper.GlobalSystemVersionOffset	entityaccesshelper.
 Pathfinding.ECS.EntityStorageCache.entity	entitystoragecache.html#entity	
 Pathfinding.ECS.EntityStorageCache.lastWorldHash	entitystoragecache.html#lastWorldHash	
 Pathfinding.ECS.EntityStorageCache.storage	entitystoragecache.html#storage	
-Pathfinding.ECS.FallbackResolveMovementSystem.entityQuery	fallbackresolvemovementsystem.html#entityQuery	
 Pathfinding.ECS.FollowerControlSystem.MarkerMovementOverrideAfterControl	followercontrolsystem.html#MarkerMovementOverrideAfterControl	
 Pathfinding.ECS.FollowerControlSystem.MarkerMovementOverrideBeforeControl	followercontrolsystem.html#MarkerMovementOverrideBeforeControl	
-Pathfinding.ECS.FollowerControlSystem.entityQueryControl	followercontrolsystem.html#entityQueryControl	
 Pathfinding.ECS.FollowerControlSystem.entityQueryControlManaged	followercontrolsystem.html#entityQueryControlManaged	
 Pathfinding.ECS.FollowerControlSystem.entityQueryControlManaged2	followercontrolsystem.html#entityQueryControlManaged2	
 Pathfinding.ECS.FollowerControlSystem.redrawScope	followercontrolsystem.html#redrawScope	
@@ -851,6 +849,7 @@ Pathfinding.ECS.MovementStatistics.estimatedVelocity	movementstatistics.html#est
 Pathfinding.ECS.MovementStatistics.lastPosition	movementstatistics.html#lastPosition	The position of the agent at the end of the last movement simulation step.
 Pathfinding.ECS.MovementTarget.isReached	movementtarget.html#isReached	
 Pathfinding.ECS.MovementTarget.reached	movementtarget.html#reached	
+Pathfinding.ECS.PhysicsSceneRef.physicsScene	physicssceneref.html#physicsScene	
 Pathfinding.ECS.PollPendingPathsSystem.anyPendingPaths	pollpendingpathssystem.html#anyPendingPaths	
 Pathfinding.ECS.PollPendingPathsSystem.entityQueryPrepare	pollpendingpathssystem.html#entityQueryPrepare	
 Pathfinding.ECS.PollPendingPathsSystem.jobRepairPathScheduler	pollpendingpathssystem.html#jobRepairPathScheduler	
@@ -884,7 +883,6 @@ Pathfinding.ECS.RVO.RVOSystem.JobCopyFromRVOSimulatorToEntities.agentDataVersion
 Pathfinding.ECS.RVO.RVOSystem.JobCopyFromRVOSimulatorToEntities.agentOutputData	jobcopyfromrvosimulatortoentities.html#agentOutputData	
 Pathfinding.ECS.RVO.RVOSystem.JobCopyFromRVOSimulatorToEntities.quadtree	jobcopyfromrvosimulatortoentities.html#quadtree	
 Pathfinding.ECS.RVO.RVOSystem.agentOffMeshLinkTraversalLookup	rvosystem.html#agentOffMeshLinkTraversalLookup	
-Pathfinding.ECS.RVO.RVOSystem.entityQuery	rvosystem.html#entityQuery	
 Pathfinding.ECS.RVO.RVOSystem.lastSimulator	rvosystem.html#lastSimulator	Keeps track of the last simulator that this RVOSystem saw. \n\nThis is a weak GCHandle to allow it to be stored in an ISystem.
 Pathfinding.ECS.RVO.RVOSystem.shouldBeAddedToSimulation	rvosystem.html#shouldBeAddedToSimulation	
 Pathfinding.ECS.RVO.RVOSystem.shouldBeRemovedFromSimulation	rvosystem.html#shouldBeRemovedFromSimulation	
@@ -1452,8 +1450,8 @@ Pathfinding.FollowerEntity.scratchReferenceCount	followerentity.html#scratchRefe
 Pathfinding.FollowerEntity.shape	followerentity.html#shape	
 Pathfinding.FollowerEntity.steeringTarget	followerentity.html#steeringTarget	Point on the path which the agent is currently moving towards. \n\nThis is usually a point a small distance ahead of the agent or the end of the path.\n\nIf the agent does not have a path at the moment, then the agent's current position will be returned.
 Pathfinding.FollowerEntity.stopDistance	followerentity.html#stopDistance	How far away from the destination should the agent aim to stop, in world units. \n\nIf the agent is within this distance from the destination point it will be considered to have reached the destination.\n\nEven if you want the agent to stop precisely at a given point, it is recommended to keep this slightly above zero. If it is exactly zero, the agent may have a hard time deciding that it has actually reached the end of the path, due to floating point errors and such.\n\n[more in online documentation]
-Pathfinding.FollowerEntity.syncPosition	followerentity.html#syncPosition	
-Pathfinding.FollowerEntity.syncRotation	followerentity.html#syncRotation	
+Pathfinding.FollowerEntity.syncPosition	followerentity.html#syncPosition	Determines if the character's position should be coupled to the Transform's position. \n\nIf false then all movement calculations will happen as usual, but the GameObject that this component is attached to will not move. Instead, only the position property and the internal entity's position will change.\n\nThis is useful if you want to control the movement of the character using some other means, such as root motion, but still want the AI to move freely.\n\n[more in online documentation]
+Pathfinding.FollowerEntity.syncRotation	followerentity.html#syncRotation	Determines if the character's rotation should be coupled to the Transform's rotation. \n\nIf false then all movement calculations will happen as usual, but the GameObject that this component is attached to will not rotate. Instead, only the rotation property and the internal entity's rotation will change.\n\nThis is particularly useful for 2D games where you want the Transform to stay in the same orientation, and instead swap out the displayed sprite to indicate the direction the character is facing.\n\nYou can enable PIDMovement.DebugFlags.Rotation in debugFlags to draw a gizmos arrow in the scene view to indicate the agent's internal rotation.\n\n[more in online documentation]
 Pathfinding.FollowerEntity.tr	followerentity.html#tr	Cached transform component.
 Pathfinding.FollowerEntity.updatePosition	followerentity.html#updatePosition	Determines if the character's position should be coupled to the Transform's position. \n\nIf false then all movement calculations will happen as usual, but the GameObject that this component is attached to will not move. Instead, only the position property and the internal entity's position will change.\n\nThis is useful if you want to control the movement of the character using some other means, such as root motion, but still want the AI to move freely.\n\n[more in online documentation]
 Pathfinding.FollowerEntity.updateRotation	followerentity.html#updateRotation	Determines if the character's rotation should be coupled to the Transform's rotation. \n\nIf false then all movement calculations will happen as usual, but the GameObject that this component is attached to will not rotate. Instead, only the rotation property and the internal entity's rotation will change.\n\nThis is particularly useful for 2D games where you want the Transform to stay in the same orientation, and instead swap out the displayed sprite to indicate the direction the character is facing.\n\nYou can enable PIDMovement.DebugFlags.Rotation in debugFlags to draw a gizmos arrow in the scene view to indicate the agent's internal rotation.\n\n[more in online documentation]
@@ -2123,7 +2121,7 @@ Pathfinding.Graphs.Navmesh.TileHandler.Point64Wrapper.x	point64wrapper.html#x
 Pathfinding.Graphs.Navmesh.TileHandler.Point64Wrapper.y	point64wrapper.html#y	
 Pathfinding.Graphs.Navmesh.TileHandler.TileCuts.contourEndIndex	tilecuts.html#contourEndIndex	
 Pathfinding.Graphs.Navmesh.TileHandler.TileCuts.contourStartIndex	tilecuts.html#contourStartIndex	
-Pathfinding.Graphs.Navmesh.TileHandler.cachedClipper	tilehandler.html#cachedClipper	
+Pathfinding.Graphs.Navmesh.TileHandlerCache.cachedClippers	tilehandlercache.html#cachedClippers	
 Pathfinding.Graphs.Navmesh.TileLayout.CellHeight	tilelayout.html#CellHeight	Voxel y coordinates will be stored as ushorts which have 65536 values. \n\nLeave a margin to make sure things do not overflow
 Pathfinding.Graphs.Navmesh.TileLayout.TileWorldSize	tilelayout.html#TileWorldSize	
 Pathfinding.Graphs.Navmesh.TileLayout.TileWorldSizeX	tilelayout.html#TileWorldSizeX	Size of a tile in world units, along the graph's X axis.
@@ -2372,7 +2370,7 @@ Pathfinding.GridGraph.size	gridgraph.html#size	Size of the grid. \n\nWill always
 Pathfinding.GridGraph.textureData	gridgraph.html#textureData	Holds settings for using a texture as source for a grid graph. \n\nTexure data can be used for fine grained control over how the graph will look. It can be used for positioning, penalty and walkability control.\n\nBelow is a screenshot of a grid graph with a penalty map applied. It has the effect of the AI taking the longer path along the green (low penalty) areas.\n\n <b>[image in online documentation]</b>[more in online documentation]\n\n\n\n[more in online documentation]
 Pathfinding.GridGraph.transform	gridgraph.html#transform	Determines how the graph transforms graph space to world space. \n\n[more in online documentation]
 Pathfinding.GridGraph.unclampedSize	gridgraph.html#unclampedSize	Size of the grid. \n\nCan be negative or smaller than nodeSize
-Pathfinding.GridGraph.uniformEdgeCosts	gridgraph.html#uniformEdgeCosts	If true, all edge costs will be set to the same value. \n\nIf false, diagonals will cost more. This is useful for a hexagon graph where the diagonals are actually the same length as the normal edges (since the graph has been skewed)
+Pathfinding.GridGraph.uniformEdgeCosts	gridgraph.html#uniformEdgeCosts	If true, all edge costs will be set to the same value. \n\nIf false, diagonals will cost more. This is useful for a hexagon graph where the diagonals are actually the same length as the normal edges (since the graph has been skewed)\n\nIf the graph is set to hexagonal in the inspector, this will be automatically set to true.
 Pathfinding.GridGraph.useRaycastNormal	gridgraph.html#useRaycastNormal	Use heigh raycasting normal for max slope calculation. \n\nTrue if maxSlope is less than 90 degrees.
 Pathfinding.GridGraph.width	gridgraph.html#width	Width of the grid in nodes. \n\nGrid graphs are typically anywhere from 10-500 nodes wide. But it can go up to 1024 nodes wide by default. Consider using a recast graph instead, if you find yourself needing a very high resolution grid.\n\nThis value will be clamped to at most 1024 unless <b>ASTAR_LARGER_GRIDS</b> has been enabled in the A* Inspector -&gt; Optimizations tab.\n\n[more in online documentation]
 Pathfinding.GridGraphEditor.GridPivot	gridgrapheditor.html#GridPivot	

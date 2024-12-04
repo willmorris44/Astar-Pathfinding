@@ -392,7 +392,7 @@ namespace Pathfinding {
 			///
 			/// Note: In 2D mode, this is always treated as enabled, because no other types of inputs (like meshes or terrains) are supported.
 			/// </summary>
-			public bool rasterizeColliders;
+			public bool rasterizeColliders = true;
 
 			/// <summary>
 			/// Use scene meshes to calculate the navmesh.
@@ -409,7 +409,7 @@ namespace Pathfinding {
 			///
 			/// In 2D mode, this setting has no effect.
 			/// </summary>
-			public bool rasterizeMeshes = true;
+			public bool rasterizeMeshes;
 
 			/// <summary>
 			/// Use terrains to calculate the navmesh.
@@ -851,6 +851,12 @@ namespace Pathfinding {
 				for (int i = 1; i < meshes.meshes.Length; i++) {
 					bounds.Encapsulate(m.ToWorld(meshes.meshes[i].bounds));
 				}
+
+				// Make sure the character can stand on all surfaces (with a bit of margin)
+				bounds.max += Vector3.up * (walkableHeight * 1.1f);
+
+				// Add a small bit of margin below the lowest surface, to ensure polygons right at the bottom are not lost due to floating point errors.
+				bounds.min -= Vector3.up * 0.01f;
 
 				// The center is in world space, so we need to convert it back from the rotated space
 				forcedBoundsCenter = Quaternion.Euler(rotation) * bounds.center;

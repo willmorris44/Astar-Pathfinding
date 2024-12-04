@@ -1,7 +1,9 @@
+using Unity.Collections;
+using Unity.Profiling;
+
 namespace Pathfinding.Graphs.Navmesh {
 	using Pathfinding.Util;
 	using Pathfinding.Collections;
-	using Unity.Collections;
 
 	/// <summary>
 	/// A single tile in a recast or navmesh graph.
@@ -92,6 +94,7 @@ namespace Pathfinding.Graphs.Navmesh {
 			return verts[idx];
 		}
 
+		[IgnoredByDeepProfiler]
 		public Int3 GetVertexInGraphSpace (int index) {
 			return vertsInGraphSpace[index & NavmeshBase.VertexIndexMask];
 		}

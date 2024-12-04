@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Pathfinding.Serialization;
+using Unity.Profiling;
 
 namespace Pathfinding {
 	using Pathfinding.Pooling;
@@ -186,7 +187,12 @@ namespace Pathfinding {
 			NodeIndex = DestroyedNodeIndex;
 		}
 
-		public bool Destroyed => NodeIndex == DestroyedNodeIndex;
+		public bool Destroyed {
+			[IgnoredByDeepProfiler]
+			get {
+				return NodeIndex == DestroyedNodeIndex;
+			}
+		}
 
 		// If anyone creates more than about 200 million nodes then things will not go so well, however at that point one will certainly have more pressing problems, such as having run out of RAM
 		const uint NodeIndexMask = 0xFFFFFFF;
@@ -200,7 +206,12 @@ namespace Pathfinding {
 		/// Every node will get a unique index.
 		/// This index is not necessarily correlated with e.g the position of the node in the graph.
 		/// </summary>
-		public uint NodeIndex { get { return (uint)nodeIndex & NodeIndexMask; } internal set { nodeIndex = (int)(((uint)nodeIndex & ~NodeIndexMask) | value); } }
+		public uint NodeIndex {
+			[IgnoredByDeepProfiler]
+			get { return (uint)nodeIndex & NodeIndexMask; }
+			[IgnoredByDeepProfiler]
+			internal set { nodeIndex = (int)(((uint)nodeIndex & ~NodeIndexMask) | value); }
+		}
 
 		/// <summary>
 		/// How many path node variants should be created for each node.
@@ -317,7 +328,9 @@ namespace Pathfinding {
 		/// See: graph-updates (view in online documentation for working links)
 		/// </summary>
 		public bool Walkable {
+			[IgnoredByDeepProfiler]
 			get => (flags & FlagsWalkableMask) != 0;
+			[IgnoredByDeepProfiler]
 			set {
 				flags = flags & ~FlagsWalkableMask | (value ? 1U : 0U) << FlagsWalkableOffset;
 				AstarPath.active.hierarchicalGraph.AddDirtyNode(this);
@@ -336,17 +349,17 @@ namespace Pathfinding {
 		/// Warning: This is only guaranteed to be valid outside of graph updates, and only for walkable nodes.
 		/// </summary>
 		internal int HierarchicalNodeIndex {
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			get => (int)((flags & HierarchicalIndexMask) >> FlagsHierarchicalIndexOffset);
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			set => flags = (flags & ~HierarchicalIndexMask) | (uint)(value << FlagsHierarchicalIndexOffset);
 		}
 
 		/// <summary>Some internal bookkeeping</summary>
 		internal bool IsHierarchicalNodeDirty {
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			get => (flags & HierarchicalDirtyMask) != 0;
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			set => flags = flags & ~HierarchicalDirtyMask | (value ? 1U : 0U) << HierarchicalDirtyOffset;
 		}
 
@@ -366,7 +379,7 @@ namespace Pathfinding {
 		/// See: <see cref="Graph"/>
 		/// </summary>
 		public uint GraphIndex {
-			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+			[System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)][IgnoredByDeepProfiler]
 			get => (flags & FlagsGraphMask) >> FlagsGraphOffset;
 			set => flags = flags & ~FlagsGraphMask | value << FlagsGraphOffset;
 		}

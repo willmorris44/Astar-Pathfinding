@@ -1,5 +1,5 @@
 using Unity.Mathematics;
-using Unity.Burst;
+using Unity.Profiling;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using System.Runtime.CompilerServices;
@@ -79,6 +79,7 @@ namespace Pathfinding.Collections {
 		public ref T this[int index] {
 			// With aggressive inlining the performance of indexing is essentially the same as indexing into a native C# array
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[IgnoredByDeepProfiler]
 			get {
 				unsafe {
 					if ((uint)index >= length) throw new System.IndexOutOfRangeException();
@@ -91,6 +92,7 @@ namespace Pathfinding.Collections {
 		public ref T this[uint index] {
 			// With aggressive inlining the performance of indexing is essentially the same as indexing into a native C# array
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			[IgnoredByDeepProfiler]
 			get {
 				unsafe {
 					if (index >= length) throw new System.IndexOutOfRangeException();

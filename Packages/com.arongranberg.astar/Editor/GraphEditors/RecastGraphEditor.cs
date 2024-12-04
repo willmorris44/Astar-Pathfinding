@@ -187,9 +187,9 @@ namespace Pathfinding {
 			EditorGUI.BeginDisabledGroup(true);
 			var estTilesX = (estWidth + graph.editorTileSize - 1) / graph.editorTileSize;
 			var estTilesZ = (estDepth + graph.editorTileSize - 1) / graph.editorTileSize;
-			var label = estWidth.ToString() + " x " + estDepth.ToString();
+			var label = estWidth.ToString() + " x " + estDepth.ToString() + " voxels";
 			if (graph.useTiles) {
-				label += " voxels, divided into " + (estTilesX*estTilesZ) + " tiles";
+				label += ", divided into " + (estTilesX*estTilesZ) + " tiles";
 			}
 			EditorGUILayout.LabelField(new GUIContent("Size", "Based on the voxel size and the bounding box"), new GUIContent(label));
 			EditorGUI.EndDisabledGroup();

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 using Unity.Burst;
+using Unity.Profiling;
 using Unity.Collections;
 using Unity.Collections.LowLevel.Unsafe;
 using Pathfinding.Drawing;
@@ -234,7 +235,7 @@ namespace Pathfinding.Collections {
 				return SquaredRectPointDistanceOnPlane(in this, ref rect, ref p);
 			}
 
-			[BurstCompile(FloatMode = FloatMode.Fast)]
+			[BurstCompile(FloatMode = FloatMode.Fast)][IgnoredByDeepProfiler]
 			private static float SquaredRectPointDistanceOnPlane (in ProjectionParams projection, ref IntRect rect, ref float3 p) {
 				if (projection.alignedWithXZPlane) {
 					var p1 = new float2(rect.xmin, rect.ymin) * Int3.PrecisionFactor;

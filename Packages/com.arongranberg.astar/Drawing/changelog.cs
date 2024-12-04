@@ -6,7 +6,7 @@
 ///     - Fixed a compatibility issue with the high definition render pipeline, accidentally introduced in 1.7.5.
 ///     - Fixed gizmos were not rendered when opening prefab assets in isolation mode and the high definition render pipeline was used.
 ///
-/// - 1.7.5 (2024-10-07)
+/// - 1.7.5 (2024-08-06)
 ///     - Fixed a memory leak causing references to destroyed cameras to be kept around.
 ///     - Fixed <see cref="Draw.xy.SolidCircle(float3,float,float,float)"/> and <see cref="Draw.xz.SolidCircle(float3,float,float,float)"/> would render the circles in the wrong location.
 ///     - Reduced overhead when rendering gizmos.

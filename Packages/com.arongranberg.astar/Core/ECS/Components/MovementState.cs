@@ -1,6 +1,7 @@
 #if MODULE_ENTITIES
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Profiling;
 
 namespace Pathfinding.ECS {
 	using Pathfinding;
@@ -87,7 +88,10 @@ namespace Pathfinding.ECS {
 		/// - The remaining distance to the end of the path + the distance from the end of the path to the destination is less than <see cref="MovementSettings.stopDistance"/>.
 		/// </summary>
 		public bool reachedDestination {
+			// This attribute is used to avoid adding too much overhead when accessing this property when Deep Profiling is enabled, and to declutter the profiling view.
+			[IgnoredByDeepProfiler]
 			get => (flags & ReachedDestinationFlag) != 0;
+			[IgnoredByDeepProfiler]
 			set => flags = (ushort)((flags & ~ReachedDestinationFlag) | (value ? ReachedDestinationFlag : 0));
 		}
 
@@ -98,7 +102,9 @@ namespace Pathfinding.ECS {
 		/// - The agent is facing the desired facing direction as specified in <see cref="DestinationPoint.facingDirection"/>.
 		/// </summary>
 		public bool reachedDestinationAndOrientation {
+			[IgnoredByDeepProfiler]
 			get => (flags & reachedDestinationAndOrientationFlag) != 0;
+			[IgnoredByDeepProfiler]
 			set => flags = (ushort)((flags & ~reachedDestinationAndOrientationFlag) | (value ? reachedDestinationAndOrientationFlag : 0));
 		}
 
@@ -113,7 +119,9 @@ namespace Pathfinding.ECS {
 		/// - The remaining distance to the end of the path is less than <see cref="MovementSettings.stopDistance"/>.
 		/// </summary>
 		public bool reachedEndOfPath {
+			[IgnoredByDeepProfiler]
 			get => (flags & ReachedEndOfPathFlag) != 0;
+			[IgnoredByDeepProfiler]
 			set => flags = (ushort)((flags & ~ReachedEndOfPathFlag) | (value ? ReachedEndOfPathFlag : 0));
 		}
 
@@ -124,7 +132,9 @@ namespace Pathfinding.ECS {
 		/// - The agent is facing the desired facing direction as specified in <see cref="DestinationPoint.facingDirection"/>.
 		/// </summary>
 		public bool reachedEndOfPathAndOrientation {
+			[IgnoredByDeepProfiler]
 			get => (flags & reachedEndOfPathAndOrientationFlag) != 0;
+			[IgnoredByDeepProfiler]
 			set => flags = (ushort)((flags & ~reachedEndOfPathAndOrientationFlag) | (value ? reachedEndOfPathAndOrientationFlag : 0));
 		}
 
@@ -138,7 +148,9 @@ namespace Pathfinding.ECS {
 		/// - The remaining distance to the end of the part is not significantly larger than the agent's radius.
 		/// </summary>
 		public bool reachedEndOfPart {
+			[IgnoredByDeepProfiler]
 			get => (flags & ReachedEndOfPartFlag) != 0;
+			[IgnoredByDeepProfiler]
 			set => flags = (ushort)((flags & ~ReachedEndOfPartFlag) | (value ? ReachedEndOfPartFlag : 0));
 		}
 
@@ -148,7 +160,9 @@ namespace Pathfinding.ECS {
 		/// If false, the agent will have to traverse at least one off-mesh link before it gets to its destination.
 		/// </summary>
 		public bool traversingLastPart {
+			[IgnoredByDeepProfiler]
 			get => (flags & TraversingLastPartFlag) != 0;
+			[IgnoredByDeepProfiler]
 			set => flags = (ushort)((flags & ~TraversingLastPartFlag) | (value ? TraversingLastPartFlag : 0));
 		}
 
@@ -158,7 +172,9 @@ namespace Pathfinding.ECS {
 		/// Will be <see cref="GraphNode.InvalidGraphIndex"/> if the agent has no path, or the node that the agent is traversing has been destroyed.
 		/// </summary>
 		public uint graphIndex {
+			[IgnoredByDeepProfiler]
 			get => (uint)(flags >> 8);
+			[IgnoredByDeepProfiler]
 			internal set => flags = (ushort)((flags & 0xFF) | (ushort)(value << 8));
 		}
 
