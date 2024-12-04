@@ -89,7 +89,7 @@ namespace Pathfinding.ECS {
 					// the time it takes to run the simulation is longer than maximumDt. Otherwise the number of
 					// simulation sub-steps would increase without bound. However, the simulation quality
 					// may decrease a bit as the number of sub-steps increases.
-					numUpdatesThisFrame = 1;// Mathf.FloorToInt(Mathf.Pow(fullDt / maximumDt, 0.8f));
+					numUpdatesThisFrame = Mathf.FloorToInt(Mathf.Pow(fullDt / maximumDt, 0.8f));
 					var currentTime = group.World.Time.ElapsedTime;
 					cheapSimulationOnly = numUpdatesThisFrame == 0;
 					if (cheapSimulationOnly) {
@@ -119,7 +119,7 @@ namespace Pathfinding.ECS {
 						}
 						lastFullSimulation = currentTime;
 					}
-					numUpdatesThisFrame = 1;// Mathf.Max(1, numUpdatesThisFrame);
+					numUpdatesThisFrame = Mathf.Max(1, numUpdatesThisFrame);
 					inGroup = true;
 					updateIndex = 0;
 				}
