@@ -812,7 +812,7 @@ MonoBehaviour:
   showSearchTree: 1
   unwalkableNodeDebugSize: 0.3
   logPathResults: 0
-  maxNearestNodeDistance: 100
+  maxNearestNodeDistance: 20
   scanOnStartup: 1
   fullGetNearestSearch: 0
   prioritizeGraphs: 0
@@ -884,8 +884,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc706aca768dc4dbbfc0b9f358cec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 100
-  range: {x: 100, y: 100}
+  count: 2000
+  range: {x: 50, y: 50}
 --- !u!4 &963149586
 Transform:
   m_ObjectHideFlags: 0
@@ -895,7 +895,7 @@ Transform:
   m_GameObject: {fileID: 963149584}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 141.08, y: -110.325, z: -50.17}
+  m_LocalPosition: {x: 179.7, y: -112.06, z: -119.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

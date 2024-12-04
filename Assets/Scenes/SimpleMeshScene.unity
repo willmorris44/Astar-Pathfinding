@@ -832,7 +832,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc706aca768dc4dbbfc0b9f358cec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 1000
+  count: 3000
   range: {x: 8.77, y: 5.08}
 --- !u!4 &963149586
 Transform:
