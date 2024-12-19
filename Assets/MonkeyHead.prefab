@@ -95,23 +95,23 @@ MonoBehaviour:
   DesiredWallDistance: 0.5
   AllowRotatingOnSpot: 1
   LeadInRadiusWhenApproachingDestination: 1
-  MovePlaneSource: 2
+  MovePlaneSource: 0
   StopDistance: 0.2
   RotationSmoothing: 0
   GroundMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   IsStopped: 0
   RepathPolicy:
     mode: 2
-    period: 4
+    period: 6
   AgentOrientation: 0
   MovePlane: 1
   ManagedOpts:
-    EnableLocalAvoidance: 1
+    EnableLocalAvoidance: 0
     PathRequestOpts:
       AffectedGraphsMask:
-        value: -1
+        value: 1
       TagPenalties:
         data:
           offset0000:
@@ -139,7 +139,7 @@ MonoBehaviour:
             byte0000: 0
             byte0008: 0
       TraversableTags: -1
-    EnableGravity: 1
+    EnableGravity: 0
     RvoAgentOpts:
       agentTimeHorizon: 1
       obstacleTimeHorizon: 0.5

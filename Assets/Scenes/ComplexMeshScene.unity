@@ -229,7 +229,7 @@ GameObject:
   - component: {fileID: 190356868}
   - component: {fileID: 190356867}
   - component: {fileID: 190356870}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9c6df0af438ef4247aa0080a478a7ebb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -288,7 +288,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190356866}
-  m_Mesh: {fileID: 4300000, guid: 0a9678df39e5edc4f8431a9e474dec43, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 859e30691f8a743729502d2e333d4ae4, type: 2}
 --- !u!4 &190356869
 Transform:
   m_ObjectHideFlags: 0
@@ -325,7 +325,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 0a9678df39e5edc4f8431a9e474dec43, type: 2}
+  m_Mesh: {fileID: 4300000, guid: 859e30691f8a743729502d2e333d4ae4, type: 2}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,7 +763,7 @@ Transform:
   m_GameObject: {fileID: 838934701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -38.14, y: -113.09, z: 98.31}
+  m_LocalPosition: {x: -38.14, y: -107.3, z: 98.31}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1073741824
   data:
-    dataString: UEsDBBQAAAgIAACIn+tBXbmZjQEAAMQCAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFksGO2jAQhl8l8rlECY4J6bFotaeFVdNKVW+DPSGWjI0ce3cB8e4dh1DY014ysf+Z+fyPfWaDi17iCw49+56d2Rr2SD8soPegLfuWsV/Hw7j12+pwfLI7bTEf8y8kuq4bMKTSjH1QKGjvOMVTilnK8i5A0M5+lTdIMIlVphqkhYwGAq6d34MZSAg+ImkSZI+q/X/0Hy5aNbzoB8CsbuY5F7ysmgk1mxc32qxeLnJeNPVItfC2pyarGIK2u1UPHiT5/wlKxwQtckFZnSOYupJafcI7qhTUra4WvJpIvOZ5VZbLhZh4pVgs80I0TXW12bv3dOxNDIamefeVhLVTuHLWokwTGz6LqaqNvgP5UGURPA6hpSD7jTXHP39J7GhiSUULW4PrTx7vtbuo1dXJG5g43jPfNkrOFTFEJYqOzyquuqbqtvQFUXDJRhOanoMG80r9TbhdpTugfTjY9JgmePbs4dCnJ6U8vD/r09492NO2c630iHZzbXIzMKAnDk1cPSkdnG9x9JBK2fnCLv8AUEsDBBQAAAgIAACIn+tgKc20bgAAAHoAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNUz0jPVUVBKL0osyCgGChiCOKWZKSB2tJJxkmVKslFKWmKyqYmpQZqxrolxSpqlSVoSkEw0NTBOVooFqi+pLEj1S8xNhegJSCzJSMvMS8nMS9fzSyzzTS3OcAeZrhRbCwBQSwECLQAUAAAICAAAiJ/rQV25mY0BAADEAgAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAiJ/rYCnNtG4AAAB6AAAACQAkAAAAAAAAAAAAAADaAQAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAJMCAAAAAA==
+    dataString: UEsDBBQAAAgIAACIn+sqVGk/oAEAAN4CAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFksGOmzAQhl8F+VwQYAjQY7PRXrrJaulK3V4qxx4HS8SOjL3bJMq7d0zIhp56YTD/zHz84zmTwXjL4QmGjnyNzmTN9oAvxIG1TOn4efP97ffL6uF1uXqIcvIlIj+OhzHjVSt3XOmd0pCM5RcUjZQDuNApIn8wpPjtOMVTiFHIssYxp4z+X97AWR9YWagBPHDfMwdrY/esH1CQGABFzngHov208s14LYYnNSPEVZMntKRZ0UysOE/TJE/zJssmalzVi4SmTTXSNXvfY6+ld07p3bJjlnEcywsTygd4mpSYJQ0yxRXYqhPciVmJ3apiQYsJSCua1Fld1DdeVi7qJC2bprja7cxH+PuNdz1OFROc9TAJayNgabQGHiY3N38ra72VjMNM0cAsDK7FwLuN7o8/f81U0Gzbw/oflzN555W4mnlnvR+vnG4bwXOBlLIoU0njggrZFHKLT1amlJPRh8LNUKx/RkDvbrdqDqDvjvS0ZhM9erTs0IXtEpZ9PKrT3gz3ZKWlabkF0Jtrk0/nYJGDQxcroZyxLYwmQik5X8jlL1BLAwQUAAAICAAAiJ/rYCnNtG4AAAB6AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDVM9Iz1VFQSi9KLMgoBgoYgjilmSkgdrSScZJlSrJRSlpisqmJqUGasa6JcUqapUlaEpBMNDUwTlaKBaovqSxI9UvMTYXoCUgsyUjLzEvJzEvX80ss800tznAHma4UWwsAUEsBAi0AFAAACAgAAIif6ypUaT+gAQAA3gIAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAIif62ApzbRuAAAAegAAAAkAJAAAAAAAAAAAAAAA7QEAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAACmAgAAAAA=
     file_cachedStartup: {fileID: 0}
     cacheStartup: 0
   showNavGraphs: 0
@@ -809,7 +809,7 @@ MonoBehaviour:
   debugFloor: 0
   debugRoof: 1
   manualDebugFloorRoof: 0
-  showSearchTree: 1
+  showSearchTree: 0
   unwalkableNodeDebugSize: 0.3
   logPathResults: 0
   maxNearestNodeDistance: 20
@@ -884,7 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7cc706aca768dc4dbbfc0b9f358cec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 2000
+  count: 500
   range: {x: 50, y: 50}
 --- !u!4 &963149586
 Transform:

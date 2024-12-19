@@ -48,30 +48,6 @@ public partial struct PathTargetJob : IJobEntity {
             return;
         }
 
-        // float closestDistance = float.MaxValue;
-        float3 closestTargetPosition = float3.zero;
-        bool foundTarget = false;
-
-        if (targetPositions.Length > 0) {
-            closestTargetPosition = targetPositions[0];
-            foundTarget = true;
-        }
-
-        // for (int i = 0; i < targetPositions.Length; i++) {
-        //     float3 targetPos = targetPositions[i];
-        //     float3 monkeyPos = transform.Position;
-
-        //     float distanceSq = math.distancesq(targetPos, monkeyPos);
-
-        //     if (distanceSq < closestDistance) {
-        //         closestDistance = distanceSq;
-        //         closestTargetPosition = targetPos;
-        //         foundTarget = true;
-        //     }
-        // }
-
-        if (foundTarget) {
-            destinationPoint.destination = closestTargetPosition;
-        }
+        destinationPoint.destination = targetPositions[0];
     }
 }
